@@ -91,20 +91,35 @@ summary(brfss.df)
 
 
 # Give the following features more readable names: Diabetes, GenHlth, Sex, Age, Education, Income
-brfss.df$Diabetes[brfss.df$Diabetes == "0"] <- "No diabetes"
-brfss.df$Diabetes[brfss.df$Diabetes == "1"] <- "Pre-diabetes"
-brfss.df$Diabetes[brfss.df$Diabetes == "2"] <- "Diabetes"
-
-brfss.df$GenHlth[brfss.df$GenHlth == "1"] <- "Excellent"
-brfss.df$GenHlth[brfss.df$GenHlth == "2"] <- "Very good"
-brfss.df$GenHlth[brfss.df$GenHlth == "3"] <- "Good"
-brfss.df$GenHlth[brfss.df$GenHlth == "4"] <- "Fair"
-brfss.df$GenHlth[brfss.df$GenHlth == "5"] <- "Poor"
-brfss.df$GenHlth[brfss.df$GenHlth == "7"] <- "Don't know/Not sure"
-brfss.df$GenHlth[brfss.df$GenHlth == "9"] <- "Refused"
-
-brfss.df
+brfss.df <- brfss.df %>%
+  mutate(Diabetes = recode(Diabetes, "0" = "No diabetes", "1" = "Pre-diabetes", "2" = "Diabetes")) %>%
+  mutate(GenHlth = recode(GenHlth, "1"="Excellent", "2"="Very good", "3"="Good", "4"="Fair", "5"="Poor")) %>%
+  mutate(Sex = recode(Sex, "0"="Female", "1"="Male")) %>%
+  mutate(Age = recode(Age, "1"="18 - 24", "2"="25 - 29", "3"="30 - 34", "4"="35 - 39", "5"="40 - 44", "6"="45 - 49", "7"="50 - 54", "8"="55 - 59", "9"="60 - 64", "10"="65 - 69", "11"="70 - 74", "12"="75 - 79", "13"="80+")) %>%
+  mutate(Education = recode(Education, "1"="Never attended school or only kindergarten", "2"="Elementary school", "3"="Some high school", "4"="High school graduate", "5"="Some college or technical school", "6"="College graduate")) %>%
+  mutate(Income = recode(Income, "1"="Income < $10,000", "2"="$10,000 <= Income < $15,000", "3"="$15,000 <= Income < $20,000", "4"="$20,000 <= Income < $25,000", "5"="$25,000 <= Income < $35,000", "6"="$35,000 <= Income < $50,000", "7"="$50,000 <= Income < $75,000", "8"="Income >= $75,000"))
   
+summary(brfss.df)
+
+
+# Change value names for binary values from "0/1" to "False/True"
+brfss.df <- brfss.df %>%
+  mutate(HeartDiseaseorAttack = recode(HeartDiseaseorAttack, "0"="False", "1"="True")) %>%
+  mutate(HighBP = recode(HighBP, "0"="False", "1"="True")) %>%
+  mutate(HighChol = recode(HighChol, "0"="False", "1"="True")) %>%
+  mutate(CholCheck = recode(CholCheck, "0"="False", "1"="True")) %>%
+  mutate(Smoker = recode(Smoker, "0"="False", "1"="True")) %>%
+  mutate(Stroke = recode(Stroke, "0"="False", "1"="True")) %>%
+  mutate(PhysActivity = recode(PhysActivity, "0"="False", "1"="True")) %>%
+  mutate(Fruits = recode(Fruits, "0"="False", "1"="True")) %>%
+  mutate(Veggies = recode(Veggies, "0"="False", "1"="True")) %>%
+  mutate(HvyAlcoholConsump = recode(HvyAlcoholConsump, "0"="False", "1"="True")) %>%
+  mutate(AnyHealthcare = recode(AnyHealthcare, "0"="False", "1"="True")) %>%
+  mutate(NoDocbcCost = recode(NoDocbcCost, "0"="False", "1"="True")) %>%
+  mutate(DiffWalk = recode(DiffWalk, "0"="False", "1"="True"))
+
+summary(brfss.df)
+
 
 # Bar plots
 ggplot(brfss.df, aes(x=HeartDiseaseorAttack)) + 
@@ -112,14 +127,110 @@ ggplot(brfss.df, aes(x=HeartDiseaseorAttack)) +
 
 ggplot(brfss.df, aes(x=HighBP, fill=HeartDiseaseorAttack)) + 
   labs(fill="Has had Heart Disease\nor Heart Attack") +
-  theme(legend.position="right") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=HighChol, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=CholCheck, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
   scale_fill_grey() +
   geom_bar()
 
 BMI.level.order <- c("Underweight", "Healthy weight", "Overweight", "Class 1 Obese", "Class 2 Obese", "Class 3 Obese")
 ggplot(brfss.df, aes(x=factor(BMI, levels=BMI.level.order), fill=HeartDiseaseorAttack)) + 
   labs(fill="Has had Heart Disease\nor Heart Attack") +
-  theme(legend.position="right") +
   scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=Smoker, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=Stroke, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+Diabetes.level.order <- c("No diabetes", "Pre-diabetes", "Diabetes")
+ggplot(brfss.df, aes(x=factor(Diabetes, levels=Diabetes.level.order), fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=PhysActivity, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=Fruits, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=Veggies, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=HvyAlcoholConsump, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=AnyHealthcare, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=NoDocbcCost, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=GenHlth, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=MentHlth, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=PhysHlth, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=DiffWalk, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=Sex, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=Age, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=Education, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  coord_flip() + 
+  geom_bar()
+
+ggplot(brfss.df, aes(x=Income, fill=HeartDiseaseorAttack)) + 
+  labs(fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  coord_flip() + 
   geom_bar()
 
