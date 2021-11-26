@@ -102,21 +102,21 @@ brfss.df <- brfss.df %>%
 summary(brfss.df)
 
 
-# Change value names for binary values from "0/1" to "False/True"
+# Change value names for binary values from "0/1" to "Yes/No"
 brfss.df <- brfss.df %>%
-  mutate(HeartDiseaseorAttack = recode(HeartDiseaseorAttack, "0"="False", "1"="True")) %>%
-  mutate(HighBP = recode(HighBP, "0"="False", "1"="True")) %>%
-  mutate(HighChol = recode(HighChol, "0"="False", "1"="True")) %>%
-  mutate(CholCheck = recode(CholCheck, "0"="False", "1"="True")) %>%
-  mutate(Smoker = recode(Smoker, "0"="False", "1"="True")) %>%
-  mutate(Stroke = recode(Stroke, "0"="False", "1"="True")) %>%
-  mutate(PhysActivity = recode(PhysActivity, "0"="False", "1"="True")) %>%
-  mutate(Fruits = recode(Fruits, "0"="False", "1"="True")) %>%
-  mutate(Veggies = recode(Veggies, "0"="False", "1"="True")) %>%
-  mutate(HvyAlcoholConsump = recode(HvyAlcoholConsump, "0"="False", "1"="True")) %>%
-  mutate(AnyHealthcare = recode(AnyHealthcare, "0"="False", "1"="True")) %>%
-  mutate(NoDocbcCost = recode(NoDocbcCost, "0"="False", "1"="True")) %>%
-  mutate(DiffWalk = recode(DiffWalk, "0"="False", "1"="True"))
+  mutate(HeartDiseaseorAttack = recode(HeartDiseaseorAttack, "0"="No", "1"="Yes")) %>%
+  mutate(HighBP = recode(HighBP, "0"="No", "1"="Yes")) %>%
+  mutate(HighChol = recode(HighChol, "0"="No", "1"="Yes")) %>%
+  mutate(CholCheck = recode(CholCheck, "0"="No", "1"="Yes")) %>%
+  mutate(Smoker = recode(Smoker, "0"="No", "1"="Yes")) %>%
+  mutate(Stroke = recode(Stroke, "0"="No", "1"="Yes")) %>%
+  mutate(PhysActivity = recode(PhysActivity, "0"="No", "1"="Yes")) %>%
+  mutate(Fruits = recode(Fruits, "0"="No", "1"="Yes")) %>%
+  mutate(Veggies = recode(Veggies, "0"="No", "1"="Yes")) %>%
+  mutate(HvyAlcoholConsump = recode(HvyAlcoholConsump, "0"="No", "1"="Yes")) %>%
+  mutate(AnyHealthcare = recode(AnyHealthcare, "0"="No", "1"="Yes")) %>%
+  mutate(NoDocbcCost = recode(NoDocbcCost, "0"="No", "1"="Yes")) %>%
+  mutate(DiffWalk = recode(DiffWalk, "0"="No", "1"="Yes"))
 
 summary(brfss.df)
 
@@ -172,6 +172,116 @@ ggplot(brfss.df, aes(x=Fruits, fill=HeartDiseaseorAttack)) +
   labs(title="Do you consume at least 1 portion of fruit daily?", fill="Has had Heart Disease\nor Heart Attack") +
   scale_fill_grey() +
   geom_bar()
+
+ggplot(brfss.df, aes(x=Veggies, fill=HeartDiseaseorAttack)) + 
+  labs(title="Do you consume at least 1 portion of vegetables daily?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=HvyAlcoholConsump, fill=HeartDiseaseorAttack)) + 
+  labs(title="Is your weekly alcohol consumption considered heavy (over 14 drinks per week for men, over 7 drinks per week for women)?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=AnyHealthcare, fill=HeartDiseaseorAttack)) + 
+  labs(title="Do you have any kind of health care coverage, including health insurance, prepaid plans such as HMOs, or government plans such as Medicare, or Indian Health Service?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=NoDocbcCost, fill=HeartDiseaseorAttack)) + 
+  labs(title="Was there a time in the past 12 months when you needed to see a doctor but could not because of cost?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=GenHlth, fill=HeartDiseaseorAttack)) + 
+  labs(title="Would you say that in general your health is:", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=MentHlth, fill=HeartDiseaseorAttack)) + 
+  labs(title="Now thinking about your mental health, which includes stress, depression, and problems with emotions, for how many days during the past 30 days was your mental health not good?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=PhysHlth, fill=HeartDiseaseorAttack)) + 
+  labs(title="Now thinking about your physical health, which includes physical illness and injury, for how many days during the past 30 days was your physical health not good?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=DiffWalk, fill=HeartDiseaseorAttack)) + 
+  labs(title="Do you have serious difficulty walking or climbing stairs?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=Sex, fill=HeartDiseaseorAttack)) + 
+  labs(title="What is your biological gender (sex)?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=Age, fill=HeartDiseaseorAttack)) + 
+  labs(title="What is your age? (Ages categorized into 13 different age categories)", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar()
+
+ggplot(brfss.df, aes(x=Education, fill=HeartDiseaseorAttack)) + 
+  labs(title="What is the highest grade or year of school you have completed? (Answers categorized into 6 different categories)", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  coord_flip() + 
+  geom_bar()
+
+ggplot(brfss.df, aes(x=Income, fill=HeartDiseaseorAttack)) + 
+  labs(title="Is your annual household income from all sources:", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  coord_flip() + 
+  geom_bar()
+
+# Relative bar plots
+ggplot(brfss.df, aes(x=HighBP, fill=HeartDiseaseorAttack)) + 
+  labs(title="Have you ever been told by a doctor, nurse, or or other health professional\nthat you have high blood pressure?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar(position="fill")
+
+ggplot(brfss.df, aes(x=HighChol, fill=HeartDiseaseorAttack)) + 
+  labs(title="Have you ever been told by a doctor, nurse, or other health professional\nthat your blood cholesterol is high?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar(position="fill")
+
+ggplot(brfss.df, aes(x=CholCheck, fill=HeartDiseaseorAttack)) + 
+  labs(title="Have you had a cholesterol check within the past five years?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar(position="fill")
+
+BMI.level.order <- c("Underweight", "Healthy weight", "Overweight", "Class 1 Obese", "Class 2 Obese", "Class 3 Obese")
+ggplot(brfss.df, aes(x=factor(BMI, levels=BMI.level.order), fill=HeartDiseaseorAttack)) + 
+  labs(title="What is your body mass index (BMI)? (BMI values categorized under CDC standards)", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar(position="fill")
+
+ggplot(brfss.df, aes(x=Smoker, fill=HeartDiseaseorAttack)) + 
+  labs(title="Have you smoked at least 100 (5 packs) of cigarettes in your entire life?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar(position="fill")
+
+ggplot(brfss.df, aes(x=Stroke, fill=HeartDiseaseorAttack)) + 
+  labs(title="Have you ever had a stroke?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar(position="fill")
+
+Diabetes.level.order <- c("No diabetes", "Pre-diabetes", "Diabetes")
+ggplot(brfss.df, aes(x=factor(Diabetes, levels=Diabetes.level.order), fill=HeartDiseaseorAttack)) + 
+  labs(title="Were you ever told by a doctor, nurse, or other health professional that you had diabetes?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar(position="fill")
+
+ggplot(brfss.df, aes(x=PhysActivity, fill=HeartDiseaseorAttack)) + 
+  labs(title="During the past month, other than your regular job, did you participate in any physical activities\nor exercises such as running, calisthenics, golf, gardening, or walking for exercise?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar(position="fill")
+
+ggplot(brfss.df, aes(x=Fruits, fill=HeartDiseaseorAttack)) + 
+  labs(title="Do you consume at least 1 portion of fruit daily?", fill="Has had Heart Disease\nor Heart Attack") +
+  scale_fill_grey() +
+  geom_bar(position="fill")
 
 ggplot(brfss.df, aes(x=Veggies, fill=HeartDiseaseorAttack)) + 
   labs(title="Do you consume at least 1 portion of vegetables daily?", fill="Has had Heart Disease\nor Heart Attack") +
