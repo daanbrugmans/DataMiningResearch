@@ -87,9 +87,23 @@ BMI.to.categorical <- function(BMI.value){
 }
 
 brfss.df$BMI <- sapply(brfss.df$BMI, BMI.to.categorical)
+summary(brfss.df)
 
 
-# Give the following features more readable names: 
+# Give the following features more readable names: Diabetes, GenHlth, Sex, Age, Education, Income
+brfss.df$Diabetes[brfss.df$Diabetes == "0"] <- "No diabetes"
+brfss.df$Diabetes[brfss.df$Diabetes == "1"] <- "Pre-diabetes"
+brfss.df$Diabetes[brfss.df$Diabetes == "2"] <- "Diabetes"
+
+brfss.df$GenHlth[brfss.df$GenHlth == "1"] <- "Excellent"
+brfss.df$GenHlth[brfss.df$GenHlth == "2"] <- "Very good"
+brfss.df$GenHlth[brfss.df$GenHlth == "3"] <- "Good"
+brfss.df$GenHlth[brfss.df$GenHlth == "4"] <- "Fair"
+brfss.df$GenHlth[brfss.df$GenHlth == "5"] <- "Poor"
+brfss.df$GenHlth[brfss.df$GenHlth == "7"] <- "Don't know/Not sure"
+brfss.df$GenHlth[brfss.df$GenHlth == "9"] <- "Refused"
+
+brfss.df
   
 
 # Bar plots
