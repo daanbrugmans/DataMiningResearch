@@ -1,8 +1,12 @@
-library(caret)
 install.packages("rattle")
+install.packages("randomForest")
+
+library(caret)
 library(rattle)
 library(MLeval)
 library(rpart)
+library(randomForest)
+
 
 
 #Decision tree with the whole questionnaire
@@ -59,24 +63,71 @@ res <- evalm(rocCurve, title= "ROC Curve decision tree model without tuning")
 
 
 #Tuned model for improved specificity
-control <-rpart.control(minsplit = 5000,
-                         minbucket = round(5 / 3),
-                         maxdepth = 8,
-                         cp = 0,
-                        xval = 5)
+#Increase memory limit to overcome RAM limits
+memory.limit(100000)
+memory.limit()
+
+#Do not run! Creates vector size of 13.1GB
+#train$HeartDiseaseorAttack <- factor(train$HeartDiseaseorAttack)
+#
+#brfss.df.tree.tuned <- randomForest(HeartDiseaseorAttack ~ ., data=train, importance=TRUE,
+#                        proximity=TRUE, ntree = 10, replace=TRUE)
+
+
+tc <- trainControl(
+    method = "boot",
+    number = 20,
+    classProbs = T,
+    savePredictions = T
+  )
+
+gbmGrid <-  expand.grid(
+  interaction.depth = c(1, 2, 5, 8),
+  n.trees = seq(0, 60, by = 5),
+  shrinkage = 0.1,
+  n.minobsinnode = 1
+)
+
+
 
 brfss.df.tree.tuned = train(HeartDiseaseorAttack ~ ., 
                       data=train, 
-                      method="rpart", 
-                      trControl = trainControl(method = "boot"),
-                      control = control)
+                      method="gbm", 
+                      trControl = tc,
+                      tuneGrid = gbmGrid)
 
 #Results
-fancyRpartPlot(brfss.df.tree.tuned$finalModel)
+pretty(brfss.df.tree.tuned$bestTune)
 
 brfss.tree.tuned.pred <- predict(brfss.df.tree.tuned, newdata=test, type="raw")
 confusionMatrix(brfss.tree.tuned.pred, factor(test$HeartDiseaseorAttack))
 
+#Confusion Matrix and Statistics
+#
+#Reference
+#Prediction   No  Yes
+#No  7890 1879
+#Yes 1271 2931
+#
+#Accuracy : 0.7745          
+#95% CI : (0.7675, 0.7814)
+#No Information Rate : 0.6557          
+#P-Value [Acc > NIR] : < 2.2e-16       
+#
+#Kappa : 0.4852          
+#
+#Mcnemar's Test P-Value : < 2.2e-16       
+#                                          
+#            Sensitivity : 0.8613          
+#            Specificity : 0.6094          
+#         Pos Pred Value : 0.8077          
+#         Neg Pred Value : 0.6975          
+#             Prevalence : 0.6557          
+#         Detection Rate : 0.5647          
+#   Detection Prevalence : 0.6992          
+#      Balanced Accuracy : 0.7353          
+#                                          
+#       'Positive' Class : No 
 
 brfss.tree.tuned.ROC <- data.frame(predict(brfss.df.tree.tuned, test, type="prob"))
 brfss.tree.tuned.ROC$obs <- as.factor(test$HeartDiseaseorAttack)
@@ -85,4 +136,5 @@ brfss.tree.tuned.ROC$Group <- 'brfss.tree'
 rocCurve <- rbind(brfss.tree.tuned.ROC)
 res <- evalm(rocCurve, title= "ROC Curve decision tree model with tuning")
 
+memory.limit(16115)
 

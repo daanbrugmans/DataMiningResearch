@@ -160,6 +160,7 @@ for(i in 1:22){
 
 brfss.df <- rbind(brfss.df.with.heartDiseaseorAttack, brfss.df.without.heartDiseaseorAttack.filtered)
 brfss.df <- slice(brfss.df, sample(1:n()))
+brfss.df <- brfss.df[, -1]
 
 #Select 60% as train set and 40% to be divided into test and validation ste
 sample <- sample.int(n = nrow(brfss.df), size = floor(.6*nrow(brfss.df)), replace = F)
