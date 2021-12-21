@@ -206,3 +206,17 @@ cbind(freq = table(test$HeartDiseaseorAttack),
 #No  9161   65.57154
 #Yes 4810   34.42846
 
+
+#Reduced dataset based on the results of the study
+brfss.df.reduced <- select(brfss.df, c("HeartDiseaseorAttack", 
+                                       "HighBP", 
+                                       "HighChol", 
+                                       "Smoker", 
+                                       "Diabetes", 
+                                       "GenHlth", 
+                                       "DiffWalk", 
+                                       "Sex", 
+                                       "Age", 
+                                       "Stroke"))
+
+
