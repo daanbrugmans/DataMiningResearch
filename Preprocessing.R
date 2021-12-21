@@ -144,7 +144,7 @@ sample <- sample.int(n = nrow(brfss.df.without.heartDiseaseorAttack), size = flo
 brfss.df.without.heartDiseaseorAttack.filtered <- brfss.df.without.heartDiseaseorAttack[-sample, ]
 print(nrow(brfss.df.without.heartDiseaseorAttack.filtered))
 
-#Validate that the ratios have remained the same
+#Validate that the ratios of all of the attributes have remained the same
 for(i in 1:22){
   print(colnames(brfss.df.without.heartDiseaseorAttack)[i])
 

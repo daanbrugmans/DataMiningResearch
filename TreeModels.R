@@ -6,9 +6,10 @@ library(rattle)
 library(MLeval)
 library(rpart)
 library(randomForest)
+library(gbm)
 
 
-
+seed(101)
 #Decision tree with the whole questionnaire
 
 control <- trainControl(method='repeatedcv', 
@@ -26,9 +27,44 @@ brfss.df.tree = train(HeartDiseaseorAttack ~ .,
 #Results
 fancyRpartPlot(brfss.df.tree$finalModel)
 
+brfss.tree.pred <- predict(brfss.df.tree, newdata=validation, type="raw")
+confusionMatrix(brfss.tree.pred, factor(validation$HeartDiseaseorAttack))
+
+#Confusion Matrix of validation set
+#Confusion Matrix and Statistics
+#
+#Reference
+#Prediction   No  Yes
+#No  7574 2002
+#Yes 1628 2766
+#
+#Accuracy : 0.7402          
+#95% CI : (0.7328, 0.7474)
+#No Information Rate : 0.6587          
+#P-Value [Acc > NIR] : < 2.2e-16       
+#
+#Kappa : 0.411           
+#
+#Mcnemar's Test P-Value : 5.981e-10       
+#                                          
+#            Sensitivity : 0.8231          
+#            Specificity : 0.5801          
+#         Pos Pred Value : 0.7909          
+#         Neg Pred Value : 0.6295          
+#             Prevalence : 0.6587          
+#         Detection Rate : 0.5422          
+#   Detection Prevalence : 0.6855          
+#      Balanced Accuracy : 0.7016          
+#                                          
+#       'Positive' Class : No 
+
+
 brfss.tree.pred <- predict(brfss.df.tree, newdata=test, type="raw")
 confusionMatrix(brfss.tree.pred, factor(test$HeartDiseaseorAttack))
 
+#Confusion Matrix of test set
+#Confusion Matrix and Statistics
+#
 #Reference
 #Prediction   No  Yes
 #No  7587 2051
@@ -42,8 +78,8 @@ confusionMatrix(brfss.tree.pred, factor(test$HeartDiseaseorAttack))
 #Kappa : 0.4115          
 #
 #Mcnemar's Test P-Value : 2.659e-15       
-#                                   
-#   Sensitivity : 0.8282          
+#                                          
+#            Sensitivity : 0.8282          
 #            Specificity : 0.5736          
 #         Pos Pred Value : 0.7872          
 #         Neg Pred Value : 0.6367          
@@ -51,7 +87,7 @@ confusionMatrix(brfss.tree.pred, factor(test$HeartDiseaseorAttack))
 #         Detection Rate : 0.5431          
 #   Detection Prevalence : 0.6899          
 #      Balanced Accuracy : 0.7009          
-#                                          
+#                                         
 #       'Positive' Class : No          
        
 brfss.tree.ROC <- data.frame(predict(brfss.df.tree, test, type="prob"))
@@ -62,10 +98,11 @@ rocCurve <- rbind(brfss.tree.ROC)
 res <- evalm(rocCurve, title= "ROC Curve decision tree model without tuning")
 
 
+
 #Tuned model for improved specificity
 #Increase memory limit to overcome RAM limits
-memory.limit(100000)
-memory.limit()
+#memory.limit(100000)
+#memory.limit()
 
 #Do not run! Creates vector size of 13.1GB
 #train$HeartDiseaseorAttack <- factor(train$HeartDiseaseorAttack)
@@ -99,35 +136,69 @@ brfss.df.tree.tuned = train(HeartDiseaseorAttack ~ .,
 #Results
 pretty(brfss.df.tree.tuned$bestTune)
 
-brfss.tree.tuned.pred <- predict(brfss.df.tree.tuned, newdata=test, type="raw")
-confusionMatrix(brfss.tree.tuned.pred, factor(test$HeartDiseaseorAttack))
+brfss.tree.tuned.pred <- predict(brfss.df.tree.tuned, newdata=validation, type="raw")
+confusionMatrix(brfss.tree.tuned.pred, factor(validation$HeartDiseaseorAttack))
 
+#Confusion Matrix of validation set
 #Confusion Matrix and Statistics
 #
 #Reference
 #Prediction   No  Yes
-#No  7890 1879
-#Yes 1271 2931
+#No  7849 1813
+#Yes 1353 2955
 #
-#Accuracy : 0.7745          
-#95% CI : (0.7675, 0.7814)
+#Accuracy : 0.7734          
+#95% CI : (0.7663, 0.7803)
+#No Information Rate : 0.6587          
+#P-Value [Acc > NIR] : < 2.2e-16       
+#
+#Kappa : 0.484           
+#
+#Mcnemar's Test P-Value : 3.42e-16        
+#                                          
+#            Sensitivity : 0.8530          
+#            Specificity : 0.6198          
+#         Pos Pred Value : 0.8124          
+#         Neg Pred Value : 0.6859          
+#             Prevalence : 0.6587          
+#         Detection Rate : 0.5618          
+#   Detection Prevalence : 0.6916          
+#      Balanced Accuracy : 0.7364          
+#                                          
+#       'Positive' Class : No       
+
+brfss.tree.tuned.pred <- predict(brfss.df.tree.tuned, newdata=test, type="raw")
+confusionMatrix(brfss.tree.tuned.pred, factor(test$HeartDiseaseorAttack))
+
+#Confusion Matrix of test set
+#Confusion Matrix and Statistics
+#
+#Reference
+#Prediction   No  Yes
+#No  7830 1836
+#Yes 1331 2974
+#
+#Accuracy : 0.7733          
+#95% CI : (0.7663, 0.7802)
 #No Information Rate : 0.6557          
 #P-Value [Acc > NIR] : < 2.2e-16       
 #
-#Kappa : 0.4852          
+#Kappa : 0.4851          
 #
 #Mcnemar's Test P-Value : < 2.2e-16       
 #                                          
-#            Sensitivity : 0.8613          
-#            Specificity : 0.6094          
-#         Pos Pred Value : 0.8077          
-#         Neg Pred Value : 0.6975          
+#            Sensitivity : 0.8547          
+#            Specificity : 0.6183          
+#         Pos Pred Value : 0.8101          
+#         Neg Pred Value : 0.6908          
 #             Prevalence : 0.6557          
-#         Detection Rate : 0.5647          
-#   Detection Prevalence : 0.6992          
-#      Balanced Accuracy : 0.7353          
+#         Detection Rate : 0.5604          
+#   Detection Prevalence : 0.6919          
+#      Balanced Accuracy : 0.7365          
 #                                          
-#       'Positive' Class : No 
+#       'Positive' Class : No      
+
+
 
 brfss.tree.tuned.ROC <- data.frame(predict(brfss.df.tree.tuned, test, type="prob"))
 brfss.tree.tuned.ROC$obs <- as.factor(test$HeartDiseaseorAttack)
@@ -136,5 +207,35 @@ brfss.tree.tuned.ROC$Group <- 'brfss.tree'
 rocCurve <- rbind(brfss.tree.tuned.ROC)
 res <- evalm(rocCurve, title= "ROC Curve decision tree model with tuning")
 
-memory.limit(16115)
+print(brfss.df.tree.tuned)
 
+gbmImp <- varImp(brfss.df.tree.tuned, scale = FALSE)
+gbmImp
+
+#Most important variables:
+#
+#gbm variable importance
+#
+#only 20 most important variables shown (out of 50)
+#
+#Overall
+#HighBPYes               2259.45
+#HighCholYes              982.30
+#StrokeYes                765.87
+#DiffWalkYes              723.26
+#Age80+                   581.23
+#SexMale                  473.24
+#DiabetesNo diabetes      457.45
+#GenHlthFair              406.42
+#GenHlthPoor              384.02
+#Age75 - 79               301.48
+#SmokerYes                258.88
+#GenHlthVery good         258.22
+#Age70 - 74               224.67
+#PhysHlth                 195.32
+#Age65 - 69               157.30
+#GenHlthGood              139.67
+#Age60 - 64                71.52
+#Age35 - 39                62.31
+#IncomeIncome >= $75,000   50.19
+#Age40 - 44                21.77
