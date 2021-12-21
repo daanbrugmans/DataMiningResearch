@@ -209,33 +209,31 @@ res <- evalm(rocCurve, title= "ROC Curve decision tree model with tuning")
 
 print(brfss.df.tree.tuned)
 
-gbmImp <- varImp(brfss.df.tree.tuned, scale = FALSE)
+gbmImp <- varImp(brfss.df.tree.tuned, scale = TRUE)
 gbmImp
 
-#Most important variables:
-#
-#gbm variable importance
-#
-#only 20 most important variables shown (out of 50)
-#
-#Overall
-#HighBPYes               2259.45
-#HighCholYes              982.30
-#StrokeYes                765.87
-#DiffWalkYes              723.26
-#Age80+                   581.23
-#SexMale                  473.24
-#DiabetesNo diabetes      457.45
-#GenHlthFair              406.42
-#GenHlthPoor              384.02
-#Age75 - 79               301.48
-#SmokerYes                258.88
-#GenHlthVery good         258.22
-#Age70 - 74               224.67
-#PhysHlth                 195.32
-#Age65 - 69               157.30
-#GenHlthGood              139.67
-#Age60 - 64                71.52
-#Age35 - 39                62.31
-#IncomeIncome >= $75,000   50.19
-#Age40 - 44                21.77
+# gbm variable importance
+# 
+# only 20 most important variables shown (out of 24)
+# 
+# Overall
+# HighBPYes        100.0000
+# HighCholYes       39.3165
+# DiffWalkYes       33.4618
+# StrokeYes         31.4177
+# Age80+            23.6511
+# GenHlthPoor       20.9974
+# GenHlthFair       20.6050
+# SexMale           20.1406
+# DiabetesDiabetes  16.5863
+# Age75 - 79        13.8969
+# SmokerYes         10.6232
+# GenHlthVery good   9.7804
+# Age70 - 74         8.5920
+# GenHlthGood        6.5387
+# Age65 - 69         6.0225
+# Age60 - 64         2.3644
+# Age35 - 39         2.3031
+# Age40 - 44         0.8068
+# Age45 - 49         0.6710
+# Age30 - 34         0.6304
