@@ -122,10 +122,6 @@ ROC.plot <- evalm(ROC, title="ROC curve of a boosted linear regression model wit
 
 
 # Linear regression model, selected features, with tenfold cross-validation
-train.reduced <- select(train, c("HeartDiseaseorAttack", "HighBP", "HighChol", "Smoker", "Diabetes", "GenHlth", "DiffWalk", "Sex", "Age", "Stroke"))
-validation.reduced <- select(validation, c("HeartDiseaseorAttack", "HighBP", "HighChol", "Smoker", "Diabetes", "GenHlth", "DiffWalk", "Sex", "Age", "Stroke"))
-test.reduced <- select(test, c("HeartDiseaseorAttack", "HighBP", "HighChol", "Smoker", "Diabetes", "GenHlth", "DiffWalk", "Sex", "Age", "Stroke"))
-
 control <- trainControl(method="repeatedcv",
                         number=10,
                         repeats=5)
