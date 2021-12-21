@@ -219,4 +219,37 @@ brfss.df.reduced <- select(brfss.df, c("HeartDiseaseorAttack",
                                        "Age", 
                                        "Stroke"))
 
+train.reduced <- select(train, c("HeartDiseaseorAttack", 
+                                    "HighBP", 
+                                    "HighChol", 
+                                    "Smoker", 
+                                    "Diabetes", 
+                                    "GenHlth", 
+                                    "DiffWalk", 
+                                    "Sex", 
+                                    "Age", 
+                                    "Stroke"))
+
+validation.reduced <- select(validation, c("HeartDiseaseorAttack", 
+                                 "HighBP", 
+                                 "HighChol", 
+                                 "Smoker", 
+                                 "Diabetes", 
+                                 "GenHlth", 
+                                 "DiffWalk", 
+                                 "Sex", 
+                                 "Age", 
+                                 "Stroke"))
+
+test.reduced <- select(test, c("HeartDiseaseorAttack", 
+                                           "HighBP", 
+                                           "HighChol", 
+                                           "Smoker", 
+                                           "Diabetes", 
+                                           "GenHlth", 
+                                           "DiffWalk", 
+                                           "Sex", 
+                                           "Age", 
+                                           "Stroke"))
+
 
