@@ -59,7 +59,7 @@ brfss.df.lm.ROC$obs <- as.factor(validation$HeartDiseaseorAttack)
 brfss.df.lm.ROC$Group <- "brfss.df.lm"
 
 ROC <- rbind(brfss.df.lm.ROC)
-ROC.plot <- evalm(ROC, title="ROC curve of a linear regression model with access to all features")
+ROC.plot <- evalm(ROC, title="ROC curve of a logistic regression model\nwith access to all features trained using 10-fold cross-validation")
 
 
 # Linear regression model, all features, with boosting
@@ -118,7 +118,7 @@ brfss.df.lm.ROC$obs <- as.factor(validation$HeartDiseaseorAttack)
 brfss.df.lm.ROC$Group <- "brfss.df.lm"
 
 ROC <- rbind(brfss.df.lm.ROC)
-ROC.plot <- evalm(ROC, title="ROC curve of a boosted linear regression model with access to all features")
+ROC.plot <- evalm(ROC, title="ROC curve of a logistic regression model\nwith access to all features trained using boosting")
 
 
 # Linear regression model, selected features, with tenfold cross-validation
@@ -174,4 +174,5 @@ brfss.df.lm.ROC$obs <- as.factor(validation.reduced$HeartDiseaseorAttack)
 brfss.df.lm.ROC$Group <- "brfss.df.lm"
 
 ROC <- rbind(brfss.df.lm.ROC)
-ROC.plot <- evalm(ROC, title="ROC curve of a linear regression model with access to selected features")
+ROC.plot <- evalm(ROC, title="ROC curve of a logistic regression model\nwith access to selected features trained using 10-fold cross-validation")
+
