@@ -198,3 +198,50 @@ cbind(freq = table(test$HeartDiseaseorAttack),
 #No  9161   65.57154
 #Yes 4810   34.42846
 
+
+#Reduced dataset based on the results of the study
+brfss.df.reduced <- select(brfss.df, c("HeartDiseaseorAttack", 
+                                       "HighBP", 
+                                       "HighChol", 
+                                       "Smoker", 
+                                       "Diabetes", 
+                                       "GenHlth", 
+                                       "DiffWalk", 
+                                       "Sex", 
+                                       "Age", 
+                                       "Stroke"))
+
+train.reduced <- select(train, c("HeartDiseaseorAttack", 
+                                    "HighBP", 
+                                    "HighChol", 
+                                    "Smoker", 
+                                    "Diabetes", 
+                                    "GenHlth", 
+                                    "DiffWalk", 
+                                    "Sex", 
+                                    "Age", 
+                                    "Stroke"))
+
+validation.reduced <- select(validation, c("HeartDiseaseorAttack", 
+                                 "HighBP", 
+                                 "HighChol", 
+                                 "Smoker", 
+                                 "Diabetes", 
+                                 "GenHlth", 
+                                 "DiffWalk", 
+                                 "Sex", 
+                                 "Age", 
+                                 "Stroke"))
+
+test.reduced <- select(test, c("HeartDiseaseorAttack", 
+                                           "HighBP", 
+                                           "HighChol", 
+                                           "Smoker", 
+                                           "Diabetes", 
+                                           "GenHlth", 
+                                           "DiffWalk", 
+                                           "Sex", 
+                                           "Age", 
+                                           "Stroke"))
+
+
