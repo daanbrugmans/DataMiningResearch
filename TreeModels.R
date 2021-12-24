@@ -1,5 +1,4 @@
 install.packages("rattle")
-install.packages("randomForest")
 
 library(caret)
 library(rattle)
