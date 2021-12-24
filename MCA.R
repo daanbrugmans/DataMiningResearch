@@ -35,6 +35,3 @@ create_MCA_plot(brfss.df, "participants with and without cardiovascular diseases
 create_MCA_plot(brfss.df.with.heartDiseaseorAttack, "participants with cardiovascular diseases")
 
 create_MCA_plot(brfss.df.without.heartDiseaseorAttack.filtered, "participants without cardiovascular diseases")
-
-
-
