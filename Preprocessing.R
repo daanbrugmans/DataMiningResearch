@@ -6,7 +6,7 @@ library(dplyr)
 library(caret)
 
 # Change working directory if needed, Josse.
-setwd("C:/Users/josse/Documents/GitHub/DataMiningResearch")
+setwd("C:/Users/daanb/OneDrive/Documenten/Projecten/DataMiningResearch")
 
 brfss.df <- read.csv("BRFSS2015.csv", header = T)
 
@@ -129,13 +129,12 @@ write.csv(x=brfss.df, file="BRFSS2015Preprocessed.csv")
 #Load the csv file so we do not have to reproces the data
 brfss.df <- read.csv("BRFSS2015Preprocessed.csv", header = T)
 
-# Split the preprocessed data into a train, test and validation set in the ratio 60, 30 and 10
 
+# Split the preprocessed data into a train, validation and test set in the ratio 60, 30 and 10
 set.seed(101) # Set Seed so that same sample can be reproduced in the future
 
-#To make the class imbalance a non-issue, first, 60% of the participants that did not experience coronary diseases
-#are randomly removed
-#Amount to be removed in decimal between 0(0%) and 1(100%)
+#To make the class imbalance a non-issue, first, 60% of the participants that did not experience coronary diseases are randomly removed
+  #Amount to be removed in decimal between 0(0%) and 1(100%)
 amount.without.heartDiseaseorAttack.removed <- 0.8
 brfss.df.with.heartDiseaseorAttack <- brfss.df %>% filter(HeartDiseaseorAttack == 'Yes')
 brfss.df.without.heartDiseaseorAttack <- brfss.df %>% filter(HeartDiseaseorAttack == 'No')
@@ -144,37 +143,30 @@ sample <- sample.int(n = nrow(brfss.df.without.heartDiseaseorAttack), size = flo
 brfss.df.without.heartDiseaseorAttack.filtered <- brfss.df.without.heartDiseaseorAttack[-sample, ]
 print(nrow(brfss.df.without.heartDiseaseorAttack.filtered))
 
-#Validate that the ratios have remained the same
+#Validate that the ratios of all of the attributes have remained the same
 for(i in 1:22){
   print(colnames(brfss.df.without.heartDiseaseorAttack)[i])
 
   print(cbind(freq = table(brfss.df.without.heartDiseaseorAttack[, i]),
         percentage = prop.table(table(brfss.df.without.heartDiseaseorAttack[, i])) * 100))
+  
   print(cbind(freq = table(brfss.df.without.heartDiseaseorAttack.filtered[, i]),
         percentage = prop.table(table(brfss.df.without.heartDiseaseorAttack.filtered[, i])) * 100))
-  
-  
 }
-
-
 
 brfss.df <- rbind(brfss.df.with.heartDiseaseorAttack, brfss.df.without.heartDiseaseorAttack.filtered)
 brfss.df <- slice(brfss.df, sample(1:n()))
 brfss.df <- brfss.df[, -1]
 
-#Select 60% as train set and 40% to be divided into test and validation ste
+#Select 60% as train set and 40% to be divided into test and validation sets
 sample <- sample.int(n = nrow(brfss.df), size = floor(.6*nrow(brfss.df)), replace = F)
 train <- data.frame(brfss.df[sample, ])
-
 test_and_validation  <- brfss.df[-sample, ]
 
-#Split remaining test_and_validation set into test and validation set in the ratio 75:25
-
-sample <- sample.int(n = nrow(test_and_validation), size = floor(.5*nrow(test_and_validation)), replace = F)
+#Split remaining test_and_validation set into validation and test set in the ratio 75:25
+sample <- sample.int(n = nrow(test_and_validation), size = floor(.75*nrow(test_and_validation)), replace = F)
 validation <- data.frame(test_and_validation[sample, ])
-
 test <- data.frame(test_and_validation[-sample, ])
-
 
 #Validate that the ratios of coronary disease appearances has remained the same
 
@@ -205,4 +197,11 @@ cbind(freq = table(test$HeartDiseaseorAttack),
 #freq percentage
 #No  9161   65.57154
 #Yes 4810   34.42846
+
+
+#Reduced dataset based on the results of the study
+brfss.df.reduced <- select(brfss.df, c("HeartDiseaseorAttack", "HighBP", "HighChol", "Smoker", "Diabetes", "GenHlth", "DiffWalk", "Sex", "Age", "Stroke"))
+train.reduced <- select(train, c("HeartDiseaseorAttack", "HighBP", "HighChol", "Smoker", "Diabetes", "GenHlth", "DiffWalk", "Sex", "Age", "Stroke"))
+validation.reduced <- select(validation, c("HeartDiseaseorAttack", "HighBP", "HighChol", "Smoker", "Diabetes", "GenHlth", "DiffWalk", "Sex", "Age", "Stroke"))
+test.reduced <- select(test, c("HeartDiseaseorAttack", "HighBP", "HighChol", "Smoker", "Diabetes", "GenHlth", "DiffWalk", "Sex", "Age", "Stroke"))
 
