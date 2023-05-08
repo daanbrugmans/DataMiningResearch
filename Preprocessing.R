@@ -8,7 +8,7 @@ library(caret)
 # Change working directory if needed, Josse.
 setwd("C:/Users/daanb/OneDrive/Documenten/Projecten/DataMiningResearch")
 
-brfss.df <- read.csv("BRFSS2015.csv", header = T)
+brfss.df <- read.csv("Data/BRFSS2015.csv", header = T)
 
 summary(brfss.df)
 
@@ -124,10 +124,10 @@ summary(brfss.df)
 
 
 # Write preprocessed data frame to CSV file
-write.csv(x=brfss.df, file="BRFSS2015Preprocessed.csv")
+write.csv(x=brfss.df, file="Data/BRFSS2015Preprocessed.csv")
 
 #Load the csv file so we do not have to reproces the data
-brfss.df <- read.csv("BRFSS2015Preprocessed.csv", header = T)
+brfss.df <- read.csv("Data/BRFSS2015Preprocessed.csv", header = T)
 
 
 # Split the preprocessed data into a train, validation and test set in the ratio 60, 30 and 10
