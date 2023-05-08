@@ -1,5 +1,5 @@
 # Data Mining Research
-Repository for the Data Mining Research Project, a part of the RU Data Science Pre-Master, made by @daanbrugmans and @JosseNobel.
+Repository for the Data Mining Research Project, a part of the RU Data Science Pre-Master, made by [@daanbrugmans](https://github.com/daanbrugmans) and [@JosseNobel](https://github.com/JosseNobel).
 
 This repository contains the code written for the class project for the course [Data Mining](https://www.ru.nl/courseguides/socsci/courses-osiris/ai/nwi-ibi008-data-mining/), 
 a second-year course from the [Computing Science bachelor](https://www.ru.nl/en/education/bachelors/computing-science) of the [Radboud University](https://www.ru.nl/en).
